@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-# imports
 import scholarly
 import sys
 import re
