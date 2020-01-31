@@ -1,12 +1,25 @@
 #!/usr/bin/env python
+from typing import List
+
+from scholarly import Publication
+
+default_bib_file = "~/Dropbox/culture/culture-bibliography.bib"
 
 import scholarly
 import sys
 import re
+import os.path
 
 gs_search = sys.argv[1:]
 gs_search = " ".join(gs_search)
-print(gs_search)
+if gs_search == '':
+    gs_search = input('Enter a search string for Google scholar: ')
+
+bib_file = input(f'Enter path to .bib file: [{default_bib_file}]: ')
+if bib_file == '':
+    bib_file = default_bib_file
+bib_file = os.path.expanduser(bib_file)
+
 
 # get a list of google scholar results
 # show them on the command line
@@ -18,10 +31,12 @@ pub_results = scholarly.search_pubs_query(gs_search)
 res_list = list()
 for ix in range(10):
     cur_res = next(pub_results)
-    print(str(ix + 1), '\t', cur_res.bib['title'], ' - ', cur_res.bib['author'])
+    cb = cur_res.bib
+    year = cb.get("year", "")
+    print(f"{str(ix + 1)}    {cb['title']} - {cb['author']} ({year}) - {cb['journal']}")
     res_list.append(cur_res)
 
-indexes = input('Enter indexes to download: ')
+indexes = input('Enter indexes to download, separated by space: ')
 indexes = re.split(r'\s+', indexes.strip())
 indexes = list(map(int, indexes))
 indexes = [i - 1 for i in indexes]
@@ -33,6 +48,6 @@ for ix in indexes:
     pg = scholarly.scholarly._get_page(bib_url)
     bibtex_list.append(pg)
 
-with open("culture-bibliography.bib", "a") as bib_file:
+with open(bib_file, "a") as bib_file:
     print("\n", file = bib_file)
     print("\n".join(bibtex_list), file = bib_file)
