@@ -5,7 +5,7 @@ import sys
 import re
 
 gs_search = sys.argv[1:]
-gs_search = "".join(gs_search)
+gs_search = " ".join(gs_search)
 print(gs_search)
 
 # get a list of google scholar results
