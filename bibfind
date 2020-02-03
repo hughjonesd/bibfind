@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from typing import List
 
 from scholarly import Publication
@@ -33,7 +33,8 @@ for ix in range(10):
     cur_res = next(pub_results)
     cb = cur_res.bib
     year = cb.get("year", "")
-    print(f"{str(ix + 1)}    {cb['title']} - {cb['author']} ({year}) - {cb['journal']}")
+    journal = cb.get("journal", "")
+    print(f"{str(ix + 1)}    {cb['title']} - {cb['author']} ({year}) - {journal}")
     res_list.append(cur_res)
 
 indexes = input('Enter indexes to download, separated by space: ')
