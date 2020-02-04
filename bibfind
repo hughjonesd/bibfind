@@ -33,10 +33,12 @@ for ix in range(10):
     cur_res = next(pub_results, None)
     if cur_res is None: 
       break
+    cur_res.fill()
     cb = cur_res.bib
     year = cb.get("year", "")
     journal = cb.get("journal", "")
-    print(f"{str(ix + 1)}    {cb['title']} - {cb['author']} ({year}) - {journal}")
+    cites = cur_res.citedby
+    print(f"{str(ix + 1)}    {cb['title']} - {cb['author']} ({year}) - {journal} - {cites} cites")
     res_list.append(cur_res)
 
 indexes = input('Enter indexes to download, separated by space: ')
