@@ -30,7 +30,9 @@ pub_results = scholarly.search_pubs_query(gs_search)
 
 res_list = list()
 for ix in range(10):
-    cur_res = next(pub_results)
+    cur_res = next(pub_results, None)
+    if cur_res is None: 
+      break
     cb = cur_res.bib
     year = cb.get("year", "")
     journal = cb.get("journal", "")
